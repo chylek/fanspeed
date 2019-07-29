@@ -35,7 +35,7 @@ initFan()
 setFan()
 {
   SPEED=$1
-  $ECFILE := 0x2F $SPEED
+  $ECFILE := 0xD6 $SPEED
 }
 
 getTempAvg()
@@ -46,7 +46,8 @@ getTempAvg()
   while [ $CUR -lt $INTERVAL ]
   do
     #TMP=$(sensors | grep Physical | cut -b 18-19)
-    TMP=$(cat /sys/class/hwmon/hwmon*/device/temp1_input | cut -b1-2)
+    #TMP=$(cat /sys/class/hwmon/hwmon*/device/temp1_input | cut -b1-2)
+    TMP=$(sensors | grep "Core 1" | cut -b 16-17)
     #TMP=$(sensors | grep "Physical" | awk '{print $4}' | tr -d '+°C' | cut -b 1-2)
     ((CPUTEMP=$CPUTEMP+$TMP))
     ((CUR=$CUR+1))
